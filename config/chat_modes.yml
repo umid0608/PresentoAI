@@ -1,0 +1,10 @@
+auto:
+  name: 🤖 Avto
+  welcome_message: 🤖 Assalomu alaykum, Men <b>Presento AI botman</b>. Nima yaratmoqchisiz?
+  parse_mode: html
+
+
+manual:
+  name: 👩🏼‍💻 Qo'lda
+  welcome_message: 👩🏼‍💻 Nima yaratmoqchisiz?
+  parse_mode: html

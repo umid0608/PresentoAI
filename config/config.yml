@@ -1,0 +1,5 @@
+telegram_token: 6862966096:AAG0zxrxuE9CzCRqeTm1Wt9N0R6xj1DWcok
+openai_api_key: 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
+provider_token: <your provider token>
+admin_chat_id: -1002142480392
+allowed_telegram_usernames: []   # if empty, the bot is available to anyone
