@@ -45,8 +45,8 @@ logger = logging.getLogger(__name__)
 
 CHAT_MODES = config.chat_modes
 
-HELP_MESSAGE = """Commands:
-⚪ /menu – Menyuni ko'rish
+HELP_MESSAGE = """<b>Buyruqlar:</b>
+💼 /menu – Menyuni ko'rish
 🤖 /mode – Rejimni tanlash
 💰 /balance – Balansni ko'rish
 🆘 /help – Yordam
@@ -84,12 +84,16 @@ async def start_handle(update: Update, context: CallbackContext):
 
     db.set_user_attribute(user_id, "last_interaction", datetime.now())
 
-    reply_text = "Assalomu alaykum! Men Suniy Intelekt yordamida ishlaydigan Slider AI botman 🤖\n\n"
-    reply_text += HELP_MESSAGE
-
-    reply_text += "\nEndi... Xohlaganingizni tanlang!"
+    reply_text = "<b>Assalomu alaykum!</b> Men Suniy Intelekt asosida ishlaydigan <b>Presento AI</b> botman 🤖\n\n"
+    reply_text += "<b>Xizmatlar:</b> \n\n<b>💻 Taqdimot - </b> Bir necha soniya ichida istalgan mavzuda professional shablonlar yordamida taqdimot yaratish \n<b>📝 Tezis (Mustaqil ish) - </b> Bir necha soniya ichida istalgan mavzuda professional word fortmatida tezis (Ilmiy, Mustaqil ish) yaratish \n\n"
+    reply_text += "\n Ishni boshlash uchun <b>menu</b> bo'limini tanlang!"
+    
+    help_text = HELP_MESSAGE
+    help_text += "\n <i>Ishni boshlash uchun <b>menu</b> bo'limini tanlang!</i>"
 
     await update.message.reply_text(reply_text, parse_mode=ParseMode.HTML)
+    await update.message.reply_text(help_text, parse_mode=ParseMode.HTML)
+
 
 
 async def help_handle(update: Update, context: CallbackContext):
@@ -137,7 +141,7 @@ SELECTING_ACTION, SELECTING_MENU, INPUT_TOPIC, INPUT_PROMPT = map(chr, range(4))
 END = ConversationHandler.END
 PRESENTATION = "Taqdimot"
 ABSTRACT = "Tezis"
-LANGUAGES = ['English', 'Oʼzbek', 'Russian','Korean', 'German', 'French', 'Italian', 'Spanish', 'Ukrainian', 'Polish', 'Turkish',
+LANGUAGES = ['English', 'Uzbek', 'Russian','Korean', 'German', 'French', 'Italian', 'Spanish', 'Ukrainian', 'Polish', 'Turkish',
              'Romanian', 'Dutch', 'Greek', 'Czech', 'Portuguese', 'Swedish', 'Hungarian', 'Serbian', 'Bulgarian',
              'Danish', 'Norwegian', 'Finnish', 'Slovak', 'Croatian', 'Arabic', 'Hebrew', 'Lithuanian', 'Slovenian',
              'Bengali', 'Chinese', 'Persian', 'Indonesian', 'Latvian', 'Tamil', 'Japanese',
@@ -149,13 +153,13 @@ LANGUAGES_EMOJI = ['🇬🇧', '🇺🇿','🇷🇺','🇰🇷', '🇩🇪', '�
 TEMPLATES = ["Mountains", "Organic", "East Asia", "Explore", "3D Float", "Luminous", "Academic", "Snowflake", "Floral",
              "Minimal"]
 TEMPLATES_EMOJI = ["🗻", "🌿", "🐼", "🧭", "🌑", "🕯️", "🎓", "❄️", "🌺", "◽"]
-TYPES = ["Kulguli", "Jiddiy", "Kreativ", "Ma'lumot beruvchi", "Inspirational", "Motivatsion", "Tarbiyaviy", "Tarixiy",
-         "Romantik", "Sirli", "Dam olish", "Sarguzashtli", "Hazil", "Ilmiy", "Musiqiy", "Dahshat", "Fantaziya",
+TYPES = ["Ilmiy","Ma'lumot beruvchi", "Kreativ", "Biografik", "Kulguli", "Jiddiy", "Ilhomlantiruvchi", "Motivatsion", "Tarbiyaviy", "Tarixiy",
+         "Romantik", "Sirli", "Dam olish", "Sarguzashtli", "Hazil",  "Musiqiy", "Dahshat", "Fantaziya",
          "Action", "Dramatik", "Satirik", "She'riy", "Triller", "Sport", "Komediya", "Biografik", "Siyosiy",
          "Sehrli", "Sir", "Sayohat", "Hujjatli film", "Jinoyat", "Ovqat pishirish"]
-TYPES_EMOJI = ["😂", "😐", "🎨", "📚", "🌟", "💪", "👨‍🎓", "🏛️", "💕", "🕵️‍♂️", "🧘‍♀️", "🗺️", "🤣", "🔬", "🎵", "😱", "🦄",
-               "💥", "😮", "🙃", "🌸", "😰", "⚽", "😆", "📜", "🗳️", "✨", "🔮", "✈️", "🎥", "🚓", "🍽️"]
-COUNTS = [str(i) for i in range(3, 15)]
+TYPES_EMOJI = ["🔬","📚","🎨","📜","😂", "😐", "🌟", "💪", "👨‍🎓", "🏛️", "💕", "🕵️‍♂️", "🧘‍♀️", "🗺️", "🤣", "🎵", "😱", "🦄",
+               "💥", "😮", "🙃", "🌸", "😰", "⚽", "😆",  "🗳️", "✨", "🔮", "✈️", "🎥", "🚓", "🍽️"]
+COUNTS = [str(i) for i in range(4, 16)]
 COUNTS_EMOJI = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
 BACK = "⬅️Back"
 (
@@ -203,18 +207,18 @@ async def menu_handle(update: Update, context: CallbackContext) -> str:
     if not await check_user_channels(update, context):
         # If the user hasn't joined the required channels, send a message with channel links
         keyboard = [
-            [InlineKeyboardButton("I've Joined", callback_data="joined")]
+            [InlineKeyboardButton("Obuna bo'ldim ✅", callback_data="joined")]
         ]
-        await update.message.reply_text("To use the bot, subscribe to the following channels:\n\n👉 <a href='https://t.me/presento_ai'>Presento AI</a>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.HTML)
+        await update.message.reply_text("Botdan foydalanish uchun quyidagi kanallarga obuna bo'ling:\n\n👉 <a href='https://t.me/presento_ai'>Presento AI</a>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.HTML)
         return
     
     # If the user has joined the required channels, display the menu with inline buttons
     keyboard = [
         [
-            InlineKeyboardButton(f"💻{PRESENTATION}", callback_data=PRESENTATION)
+            InlineKeyboardButton(f"💻 {PRESENTATION}", callback_data=PRESENTATION)
         ],
         [
-            InlineKeyboardButton(f"📝{ABSTRACT}", callback_data=ABSTRACT)
+            InlineKeyboardButton(f"📝 {ABSTRACT}", callback_data=ABSTRACT)
         ]
     ]
     if context.user_data.get(START_OVER):
@@ -360,10 +364,19 @@ async def presentation_topic_callback(update: Update, context: CallbackContext) 
     await register_user_if_not_exists(update.callback_query, context, update.callback_query.from_user)
     query = update.callback_query
     data = query.data
-    text = "Taqdimotingiz mavzusi nima?"
+    text =("<b>Taqdimot mavzusi kiriting:</b>"
+    "\n\n <b>Muhim❗️:</b>"
+    "\n\n1. Men ingliz tilida kiritilgan mavzularni yaxshi tushunaman."
+    "\n2. Ingliz tiliga tarjima qilinganda ma'nosi o'zgarishi mumkin bo'lgan mavzularni kiritmaslikka harakat qiling."
+    "\n3. Mavzu qaysi tilda kiritilishidan qat'iy nazar, tanlangan til asosida taqdimot yarataman."
+    "\n4. Har bir mavzuga umumiy qarayman. Qaysidir tor doirada berilgan mavzularni kiritishda ularni aniqroq izohlashga harakat qiling."
+    "\n5. Men butun dunyo ma'lumotlari asosida taqdimot tayyorlayman. Agar O'zbekistonga oid ma'lumot kerak bo'lsa, mavzuni kiritishda davlat nomini ham kiritgan ma'qul."
+    "\n6. Shaxslar tog'risida taqdimot yaratishda, shaxs haqida aniqroq ma'lumot berishga urinib ko'ring."
+    "\n7. Qisqartma so'zlarga, imloviy xato so'zlarga tushunmasligim mumkin."
+    "\n ❗️ Agar kiritilgan mavzuga tushunmasam boshqa mavzuga chalg'ib ketishim ehtimoli mavjud. Iltimos, mavzuni tasvirlashda e'tiborli bo'ling!")
     context.user_data[COUNT_SLIDE_CHOICE] = data
     await query.answer()
-    await query.edit_message_text(text=text)
+    await query.edit_message_text(text=text, parse_mode=ParseMode.HTML)
     if MESSAGE_ID in context.chat_data:
         del context.chat_data[MESSAGE_ID]
     return INPUT_TOPIC
@@ -373,10 +386,20 @@ async def abstract_topic_callback(update: Update, context: CallbackContext) -> s
     await register_user_if_not_exists(update.callback_query, context, update.callback_query.from_user)
     query = update.callback_query
     data = query.data
-    text = "Tezis mavzusi nima?"
+    text =("<b>Tezis mavzusi kiriting:</b>"
+    "\n\n <b>Muhim❗️:</b>"
+    "\n\n1. Men ingliz tilida kiritilgan mavzularni yaxshi tushunaman."
+    "\n2. Ingliz tiliga tarjima qilinganda ma'nosi o'zgarishi mumkin bo'lgan mavzularni kiritmaslikka harakat qiling."
+    "\n3. Mavzu qaysi tilda kiritilishidan qat'iy nazar, tanlangan til asosida tezis yarataman."
+    "\n4. Har bir mavzuga umumiy qarayman. Qaysidir tor doirada berilgan mavzularni kiritishda ularni aniqroq izohlashga harakat qiling."
+    "\n5. Men butun dunyo ma'lumotlari asosida tezis tayyorlayman. Agar O'zbekistonga oid ma'lumot kerak bo'lsa, mavzuni kiritishda davlat nomini ham kiritish tavsiya qilinadi."
+    "\n6. Shaxslar tog'risida taqdimot yaratishda, shaxs haqida aniqroq ma'lumot berishga urinib ko'ring."
+    "\n7. Qisqartma so'zlarga, imloviy xato so'zlarga tushunmasligim mumkin."
+    "\n ❗️ Agar kiritilgan mavzuga tushunmasam boshqa mavzuga chalg'ib ketishim ehtimoli mavjud. Iltimos, mavzuni tasvirlashda e'tiborli bo'ling!")
+    
     context.user_data[ABSTRACT_TYPE_CHOICE] = data
     await query.answer()
-    await query.edit_message_text(text=text)
+    await query.edit_message_text(text=text, parse_mode=ParseMode.HTML)
     if MESSAGE_ID in context.chat_data:
         del context.chat_data[MESSAGE_ID]
     return INPUT_TOPIC
@@ -388,17 +411,17 @@ async def auto_generate_presentation(update: Update, context: CallbackContext, u
         response, n_used_tokens = await openai_utils.process_prompt(prompt)
     except OverflowError:
         await notification_message.delete()
-        await update.message.reply_text(text="System is currently overloaded. Please try again. 😊",
+        await update.message.reply_text(text="Tizim hozirda haddan tashqari band. Iltimos, keyinroq qayta urinib ko'ring. 😊",
                                         reply_to_message_id=message_id)
         return END
     except RuntimeError:
         await notification_message.delete()
-        await update.message.reply_text(text="Some error happened. Please try again. 😊",
+        await update.message.reply_text(text="Qandaydir xatolik yuz berdi. Iltimos, qayta urinib ko'ring. 😊",
                                         reply_to_message_id=message_id)
         return END
     except ValueError:
         await notification_message.delete()
-        await update.message.reply_text(text="Your Presentation is too big. Please try again😊",
+        await update.message.reply_text(text="Taqdimotingiz juda katta. Iltimos, qayta urinib ko'ring. 😊",
                                         reply_to_message_id=message_id)
         return END
     available_tokens = db.get_user_attribute(user_id, "n_available_tokens")
@@ -430,7 +453,8 @@ async def presentation_save_input(update: Update, context: CallbackContext):
             loop = asyncio.get_event_loop()
             loop.create_task(auto_generate_presentation(update, context, user_id, message_id, prompt, template_choice))
         else:
-            await update.message.reply_text("Tokenlaringiz yetarli emas.")
+            await update.message.reply_text("Tokenlaringiz yetarli emas."
+                                            "\n\Iltimos, balansingizni to'ldiring. Balansni to'ldirish uchun - /balansni_toldirish buyrug'ini kiriting.")
     else:
         try:
             await update.message.reply_text(text="`" + prompt + "`", parse_mode=ParseMode.MARKDOWN_V2)
@@ -454,12 +478,12 @@ async def auto_generate_abstract(update: Update, context: CallbackContext, user_
         response, n_used_tokens = await openai_utils.process_prompt(prompt)
     except OverflowError:
         await notification_message.delete()
-        await update.message.reply_text(text="System is currently overloaded. Please try again😊",
+        await update.message.reply_text(text="Tizim hozirda haddan tashqari band. Iltimos, keyinroq qayta urinib ko'ring. 😊",
                                         reply_to_message_id=message_id)
         return END
     except RuntimeError:
         await notification_message.delete()
-        await update.message.reply_text(text="Some error happened. Please try again😊",
+        await update.message.reply_text(text="Qandaydir xatolik yuz berdi. Iltimos, qayta urinib ko'ring. 😊",
                                         reply_to_message_id=message_id)
         return END
     except ValueError:
@@ -560,40 +584,56 @@ async def show_balance_handle(update: Update, context: CallbackContext):
     n_used_tokens = db.get_user_attribute(user_id, "n_used_tokens")
     n_available_tokens = db.get_user_attribute(user_id, "n_available_tokens")
 
-    text = f"🟢Sizda <b>{n_available_tokens}</b> token mavjud\n"
-    text += f"Siz <b>{n_used_tokens}</b> token ishlatdingiz\n\n"
-    text += f"balansni to'ldirish uchun <b>/balansni_toldirish</b> ni bosing\n\n"
+    text = f"🟢 Sizda <b>{n_available_tokens}</b> token mavjud\n"
+    text += f"🔴 Siz <b>{n_used_tokens}</b> token ishlatdingiz\n\n"
+    text += f"💰 Balansni to'ldirish uchun <b>/balansni_toldirish</b> buyrog'ini kiriting.\n\n"
 
     await update.message.reply_text(text, parse_mode=ParseMode.HTML)
     
-# Define command handler for /balansni_toldirish
 async def balansni_toldirish(update: Update, context: CallbackContext):
+    instruction0 = (
+        "*Tariflar:*"
+        "\n\n 2000 token - *2000 so\'m.*"
+        "\n 5000 token - *4000 so\'m.*"
+        "\n 7000 token - *6000 so\'m.*"
+        "\n 10000 token - *8000 so\'m.*"
+        "\n\n *1800 token evaziga 15 ta sahifa (list)dan tashkil topdan toʼliq bir taqdimot yaratish mumkin.*"
+    )
     instruction1 = (
-        "Balansni to'ldirish uchun quyidagi raqamlarga to'lovni amalga oshiring:\n"
-        "123456789\n987654321\n\n"
-        "To'lov qabul qilinadigan kartalarning raqamlari yuqoridagi misol kabi berilgan. "
-        "To'lov qilganingizni xabarda ma'lum qiling va to'lov qilinmasdan oldin balansingizni "
-        "yoki so'rovingizni yuboring."
+        "Balansni to\'ldirish uchun quyidagi toʼlov kartalridan biriga to\'lov qiling:\n"
+        "_Nusxa olish uchun raqamlar ustiga bosing._ \n\n"
+        "💳 Karta Raqami: `9860190112621585`"
+        "\n 👤 Karta egasi: Umidjon Azamkulov\n\n"
+        "💳 Karta Raqami: `9860606736003199`"
+        "\n👤 Karta egasi: Azamkulov Umidjon"
     )
 
     instruction2 = (
-        "To'lov qilinadigan kartalarning raqamlari yuqoridagi misol kabi berilgan. "
-        "To'lov qilganingizni xabarda ma'lum qiling va to'lov qilinmasdan oldin balansingizni "
-        "yoki so'rovingizni yuboring."
+        "*❗️Eslatmalar*\n\n"
+        "1.To\'lov chekisiz balansingiz to\'ldirilmaydi. Chekni albatta yuboring.\n"
+        "2.Chekni inson tekshiradi. Shuning uchun biroz vaqt oladi. \n"
+        "3.Chekda To\'lov vaqti ko\'rinmagan, yoki aniq ko\'rinmagan bo\'lsa, to\'lov qabul qilinmaydi \n"
+        "4. Faqatgina Tariflar bo\'limida keltirilgan mablag\' miqdorida to\'lov qiling, Agarda mab\'lag\' tariflardagi miqdordan ko\'p bo\'lsa, eng yaqin ekvivaliyent ta\'rif tanlanadi. \n"
+        "Bunday holatda bo\'lsangiz qo\'shimcha to\'lov qiling va adminga murojaat qiling.\n"
     )
 
     # Send both sets of instructions
-    await update.message.reply_text(instruction1)
-    await update.message.reply_text(instruction2)
+    await update.message.reply_text(instruction1, parse_mode=ParseMode.MARKDOWN)
+    await update.message.reply_text(instruction2, parse_mode=ParseMode.MARKDOWN)
 
     # Send the instruction message with the inline keyboard
     await update.message.reply_text(
-        "To'lov qilish xabarni yuborish",
+        "*To\'lov qilish qadamlari:*\n\n"
+        "1. *TO\'LOV:* Ko\'rsatilgan karta raqamlaridan biriga to\'lov qiling.\n"
+        "2. *SAQLASH:* To\'lov chekini rasmga oling, yoki chek faylini saqlab oling. \n"
+        "3. *BUYRUQ:* Pastdagi *Chekni yuborish* tugmasini bosing \n"
+        "4. *YUBORISH:* To\'lov chekining rasmini yoki faylini botga yuboring. \n"
+        "5. *YAKUN:* Biz chekni tekshirgandan so\'ng hisobingizni to\'ldiramiz.",
+        parse_mode=ParseMode.MARKDOWN,
         reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("To'lov qilish xabarni yuborish", callback_data="payment_receipt")]]
+            [[InlineKeyboardButton("Chekni yuborish", callback_data="payment_receipt")]]
         ),
     )
-
 
 # Define callback handler to handle payment receipt submission button click
 async def handle_payment_receipt_button(update: Update, context: CallbackContext):
@@ -628,15 +668,16 @@ async def handle_payment_receipt(update: Update, context: CallbackContext):
 # Define callback handler to handle admin actions
 async def handle_admin_actions(update: Update, context: CallbackContext):
     query = update.callback_query
+    message_id = query.message.message_id  # Get the message ID to delete the message later
     if query.data == "approve":
         # Admin approves the payment receipt
         await query.answer("To'lov tasdiqlandi. Token miqdorini tanlang:")
         await query.message.reply_text(
             "Token miqdorini tanlang:",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("1000", callback_data="token_amount|1000")],
-                [InlineKeyboardButton("3000", callback_data="token_amount|3000")],
+                [InlineKeyboardButton("2000", callback_data="token_amount|2000")],
                 [InlineKeyboardButton("5000", callback_data="token_amount|5000")],
+                [InlineKeyboardButton("7000", callback_data="token_amount|7000")],
                 [InlineKeyboardButton("10000", callback_data="token_amount|10000")],
             ])
         )
@@ -644,10 +685,16 @@ async def handle_admin_actions(update: Update, context: CallbackContext):
         # Admin rejects the payment receipt
         await query.answer("To'lov rad etildi.")
         # Notify the user who made the payment about the rejection
-        
         await update.effective_user.send_message("Sizning to'lovingiz rad etildi. Iltimos, qaytadan urinib ko'ring.")
 
+    # Delete the message after processing
+    try:
+        await context.bot.delete_message(chat_id=query.message.chat_id, message_id=message_id)
+    except telegram.error.BadRequest:
+        # Message might have already been deleted or is inaccessible
+        pass
 
+# Define callback handler to handle token amount selection
 # Define callback handler to handle token amount selection
 async def handle_token_amount_selection(update: Update, context: CallbackContext):
     query = update.callback_query
@@ -663,6 +710,12 @@ async def handle_token_amount_selection(update: Update, context: CallbackContext
     # Send a message to the user who made the payment
     await update.effective_user.send_message(f"{token_amount} tokenlar sizning balansingizga muvaffaqiyatli qo'shildi.")
 
+    # Delete the message from the admin chat
+    try:
+        await context.bot.delete_message(chat_id=query.message.chat_id, message_id=query.message.message_id)
+    except telegram.error.BadRequest:
+        # Message might have already been deleted or is inaccessible
+        pass
 
 async def edited_message_handle(update: Update, context: CallbackContext):
     text = "🥲 Afsuski, xabar <b>editing</b> qo'llab quvvatlanmadi"
@@ -699,6 +752,8 @@ def run_bot() -> None:
     application = (
         ApplicationBuilder()
         .token(config.telegram_token)
+        .read_timeout(30)
+        .write_timeout(20)
         .concurrent_updates(True)
         .post_init(post_init)
         .build()

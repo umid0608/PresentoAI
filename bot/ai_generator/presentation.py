@@ -11,56 +11,58 @@ except ImportError:
 
 
 async def generate_ppt_prompt(language, emotion_type, slide_length, topic):
-    message = f"""You are an presentation expert and you should create an {language} language outline for a {emotion_type} slideshow presentation on the topic of {topic} which is {slide_length} slides long. 
- Make sure itis {slide_length} slides long.
+    message = f"""In your role as a presentation virtuoso, your mission is to meticulously sculpt a {language} language framework for an impactful {emotion_type} slideshow presentation, unfurling the enthralling narrative of {topic} across a robust expanse of {slide_length} slides.
+     
+Make sure it is {slide_length} slides long.
 
-You are allowed to use the following slide types:
+Your canvas includes a suite of slide types:
 
-Slide types:
-Title Slide - (Title, Subtitle)
-Content Slide - (Title, Content)
-Image Slide - (Title, Content, Image)
-Thanks Slide - (Title)
+Slide Types:
+- Title Slide: (Title, Subtitle)
+- Content Slide: (Title, Content)
+- Image Slide: (Title, Content, Image)
+- Thanks Slide: (Title)
 
-Put this tag before the Title Slide: [L_TS]
-Put this tag before the Content Slide: [L_CS]
-Put this tag before the Image Slide: [L_IS]
-Put this tag before the Thanks Slide: [L_THS]
+Precede each slide type with the prescribed tags:
+- Title Slide: [L_TS]
+- Content Slide: [L_CS]
+- Image Slide: [L_IS]
+- Thanks Slide: [L_THS]
 
-Put this tag after each Slide: [SLIDEBREAK]
+Infuse clarity by inserting a [SLIDEBREAK] tag after each slide, ensuring seamless flow and engagement.
 
-For example:
+Example:
 [L_TS]
-[TITLE]Mount Everest: The Highest Peak in the World[/TITLE]
+[TITLE]Mount Everest: The Apex of Achievement[/TITLE]
 
 [SLIDEBREAK]
 
 [L_IS]
 [TITLE]Facts about Mount Everest[/TITLE]
-[CONTENT]• It is 8,848 meters (29,029 ft) high above sea level
-• First successfully climbed by Sir Edmund Hillary and Tenzing Norgay on May 29, 1953
-• Over 300 climbers have died attempting to scale the mountain[/CONTENT]
+[CONTENT]• Towering majestically at an altitude of 8,848 meters (29,029 ft) above sea level
+• Conquered triumphantly by Sir Edmund Hillary and Tenzing Norgay on May 29, 1953
+• Eclipsed by over 300 lives lost in pursuit of the summit[/CONTENT]
 [IMAGE]Mount Everest[/IMAGE]
 
 [SLIDEBREAK]
 
-Put this tag before the Title: [TITLE]
-Put this tag after the Title: [/TITLE]
-Put this tag before the Subtitle: [SUBTITLE]
-Put this tag after the Subtitle: [/SUBTITLE]
-Put this tag before the Content: [CONTENT]
-Put this tag after the Content: [/CONTENT]
-Put this tag before the Image: [IMAGE]
-Put this tag after the Image: [/IMAGE]
+Embrace the designated tags for consistent formatting:
+- Before Title: [TITLE]
+- After Title: [/TITLE]
+- Before Subtitle: [SUBTITLE]
+- After Subtitle: [/SUBTITLE]
+- Before Content: [CONTENT]
+- After Content: [/CONTENT]
+- Before Image: [IMAGE]
+- After Image: [/IMAGE]
 
-Elaborate on the Content, provide as much information as possible.
-You put a [/CONTENT] at the end of the Content.
-Pay attention to the language of presentation - {language}.
-Each image should be described in general by a set of keywords, such as "Mount Everest Sunset" or "Niagara Falls Rainbow".
-Do not write Image in Content tag.
-Do not reply as if you are talking about the slideshow itself. (ex. "Include pictures here about...")
-Do not include any special characters (?, !, ., :, ) in the Title.
-Do not include any additional information in your response and stick to the format."""
+Elevate each Content segment with comprehensive insights, ensuring an immersive exploration. Conclude with [/CONTENT].
+
+Harmonize language to the presentation's ethos in {language}. Complement visuals with vivid descriptions using evocative keywords such as "Mount Everest Sunset" or "Niagara Falls Rainbow".
+
+Steer clear of referencing "Image" within the Content tag and eschew special characters (?, !, ., :, ) in the Title.
+
+Commit to the prescribed format with unwavering precision, eschewing superfluous embellishments."""
 
     return message
 

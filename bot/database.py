@@ -44,7 +44,7 @@ class Database:
 
             "current_chat_mode": "auto",
 
-            "n_available_tokens": 10000,
+            "n_available_tokens": 2000,
             "n_used_tokens": 0,
         }
 
