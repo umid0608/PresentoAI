@@ -21,7 +21,6 @@ from telegram import (
     BotCommand,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    LabeledPrice,
     Update,
     User,
 )
@@ -205,11 +204,7 @@ async def menu_handle(update: Update, context: CallbackContext) -> str:
             pass
 
     if not await check_user_channels(update, context):
-        # If the user hasn't joined the required channels, send a message with channel links
-        keyboard = [
-            [InlineKeyboardButton("Obuna bo'ldim ✅", callback_data="joined")]
-        ]
-        await update.message.reply_text("Botdan foydalanish uchun quyidagi kanallarga obuna bo'ling:\n\n👉 <a href='https://t.me/presento_ai'>Presento AI</a>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.HTML)
+        await update.message.reply_text("Botdan foydalanish uchun quyidagi kanallarga obuna bo'ling va qaytadan urinib ko'ring:\n\n👉 <a href='https://t.me/presento_ai'>Presento AI</a>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.HTML)
         return
     
     # If the user has joined the required channels, display the menu with inline buttons
@@ -229,20 +224,6 @@ async def menu_handle(update: Update, context: CallbackContext) -> str:
                                                                         reply_markup=InlineKeyboardMarkup(keyboard))
     context.user_data[START_OVER] = False
     return SELECTING_ACTION
-
-async def button_handler(update: Update, context: CallbackContext):
-    query = update.callback_query
-    if query.data == "joined":
-        # Check the user's subscription status
-        if await check_user_channels(update, context):
-            # If the user has joined the channels, display the menu
-            await menu_handle(update, context)
-        else:
-            # If the user hasn't joined the channels, send a message asking them to subscribe
-            keyboard = [
-                [InlineKeyboardButton("I've Joined", callback_data="joined")]
-            ]
-            await query.message.reply_text("To use the bot, subscribe to the following channels:\n\n👉 <a href='https://t.me/presento_ai'>Presento AI</a>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode=ParseMode.HTML)
 
 async def generate_keyboard(page, word_array, emoji_array, callback):
     keyboard = []
@@ -639,7 +620,8 @@ async def balansni_toldirish(update: Update, context: CallbackContext):
 async def handle_payment_receipt_button(update: Update, context: CallbackContext):
     query = update.callback_query
     await query.answer()  # Acknowledge the callback
-    await update.effective_message.reply_text("To'lov chekini rasmini yuboring (jpg yoki pdf formatida)")
+    if query.data == "payment_receipt":  
+      await update.effective_message.reply_text("To'lov chekini rasmini yuboring (jpg yoki pdf formatida)")
 
 # Define message handler to handle payment receipt submission
 async def handle_payment_receipt(update: Update, context: CallbackContext):
@@ -842,7 +824,7 @@ def run_bot() -> None:
     application.add_handler(CommandHandler("balance", show_balance_handle, filters=user_filter))
 # Add command handlers to the application
     application.add_handler(CommandHandler("balansni_toldirish", balansni_toldirish))
-
+    
 # Add callback handler to handle payment receipt button click
     application.add_handler(CallbackQueryHandler(handle_payment_receipt_button, pattern="payment_receipt"))
 
